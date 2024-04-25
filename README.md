@@ -1,4 +1,4 @@
-# twomes-dataset-template
+# needforheat-dataset-template
 TO DO: Replace this text with a very short description of the dataset. 
 
 ## Table of contents
@@ -13,8 +13,6 @@ TO DO: Replace this text with a very short description of the dataset.
 ## General info
 
 TO DO: Replace this text by general info about the dataset, e.g. generic description of subjects and when the data was collected. 
-
-**Note**: [Git LFS](https://git-lfs.github.com/) is required to clone big CSV files
 
 ## Recruitment 
 
@@ -45,7 +43,7 @@ We used the following measurement device types to collect data. Some devices con
 
 TO DO: Change the markdown table below as needed.
 
-| Device type name             | Category                                                | Main device repo                                                                                           | Sattelite device 2 repo                                                                          | Sattelite device 2 repo                                                                              |
+| Source type                  | Category                                                | Main device repo                                                                                           | Sattelite device 2 repo                                                                          | Sattelite device 2 repo                                                                              |
 | ---------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
 | `OpenTherm-Monitor`          | comfort + installation + occupancy                      | [twomes-opentherm-monitor-firmware](https://github.com/energietransitie/twomes-opentherm-monitor-firmware) |                                                                                                  |                                                                                                      |
 | `DSMR-P1-gateway`            | energy                                                  | [twomes-p1-gateway-firmware](https://github.com/energietransitie/twomes-p1-gateway-firmware)               |                                                                                                  |                                                                                                      |
@@ -60,54 +58,47 @@ All timestamps were measured in [Unix time](https://en.wikipedia.org/wiki/Unix_t
 Timestamps were converted to a timezone-aware `pandas.Timestamp` value, in the [Europe/Amsterdam](https://en.wikipedia.org/wiki/Time_in_the_Netherlands) timezone. In the csv files we use [ISO 8601 format with time offset](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss±hhmm`.
 
 ### Raw measurements 
- Raw masurements will be available in the folder [/raw-measurements/](/raw-measurements/) in three formats:
+ Raw masurements will be available in the folder [/raw-measurements/](/raw-measurements/) in two formats:
 
  - [twomes_raw_measurements.parquet](/raw-measurements/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
- - nnnnnn_raw_measurements.parquet: [parquet](https://parquet.apache.org/) files, one for each subject id;
  - nnnnnn_raw_measurements.zip: [zip](https://en.wikipedia.org/wiki/ZIP_(file_format))ped [csv](https://en.wikipedia.org/wiki/Comma-separated_values) files, one for each subject id;
 
 All measurement data is structured according to the table below. By importing the parquet variant using [pandas.read_parquet()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_parquet.html), you automatically get a DataFrame wih the recommended indices and data types. 
 
 Alternatively, you can also read the zipped csv files, but this typically takes much longer. You can use the code below to endup with a DataFrame with the recommended indices and data types:
 
-```
-TODO: insert pandas.read_csv() code here
-```
+| **Index/Column** | **Name**          | **Type**    | **Description**                                                      |
+| ---------------- | ----------------- | ----------- | -------------------------------------------------------------------- |
+| index            | `id`              | `category`  | unique code of the home                                              |
+| index            | `source_category` | `category`  | catewgory, e.g. device, cloud_feed, energy_query, batch-import       |
+| index            | `source_type`     | `category`  | [device type name](###measurement-devices) of the measurement device |
+| index            | `timestamp`       | `Timestamp` | start of the interval (timezone aware)                               |
+| index            | `property`        | `category`  | property name of the measurement                                     |
+| column           | `value`           | `object`    | value of the measurement                                             |
+| column           | `unit`            | `category`  | unit of the measurement value                                        |
 
-| **Index/Column** | **Name** | **Type**     | **Description**                                                                                                                                       |
-| ---------- | --------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| index       | `id`            | `category`   | unique code of the home                                                                                                                               |
-| index       | `device_name`   | `category`   | unique name of the measurement device                                                                                                                 |
-| index       | `source`        | `category`   | [device type name](###measurement-devices) of the measurement device                                                                                  |
-| index        | `timestamp`     | `Timestamp` | start of the interval (timezone aware) |
-| index       | `property`      | `category`   | property name of the measurement                                                                                                                      |
-| column      | `value`         | `object`     | value of the measurement                                                                                                                              |
-| column      | `unit`          | `category`   | unit of the measurement value                                                                                                                         |
 
 ### Raw propertes 
- In the folder [/raw-properties/](/raw-properties/) we will make various measured properties available in an 'unstacked' format with each property in its own column and an appropriate datatype. Similar to measurements, we will make data available in three formats:
+ In the folder [/raw-properties/](/raw-properties/) we will make various measured properties available in an 'unstacked' format with each property in its own column and an appropriate datatype. Similar to measurements, we will make data available in two formats:
 
  - [twomes_raw_properties.parquet](/raw-properties/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
- - nnnnnn_raw_properties.parquet: [parquet](https://parquet.apache.org/) files, one for each subject id;
- - nnnnnn_raw_properties.zip: 23 [zip](https://en.wikipedia.org/wiki/ZIP_(file_format))ped [csv](https://en.wikipedia.org/wiki/Comma-separated_values) files, one for each subject id;
+ - nnnnnn_raw_properties.zip: <insert number> [zip](https://en.wikipedia.org/wiki/ZIP_(file_format))ped [csv](https://en.wikipedia.org/wiki/Comma-separated_values) files, one for each subject id;
 
 All property data is structured according to the table below. By importing the parquet variant using [pandas.read_parquet()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_parquet.html), you automatically get a DataFrame wih the recommended indices and data types. 
 
 Alternatively, you can also read the zipped csv files, but this typically takes much longer. You can use the code below to endup with a DataFrame with the recommended indices and data types:
 
-```
-TODO: insert pandas.read_csv() code here
-```
+| **Index/Column** | **Name**                             | **Type**    | **Description**                                                      |
+| ---------------- | ------------------------------------ | ----------- | -------------------------------------------------------------------- |
+| index            | `id`                                 | `category`  | unique code of the home                                              |
+| index            | `source_category`                    | `category`  | catewgory, e.g. device, cloud_feed, energy_query, batch-import       |
+| index            | `source_type`                        | `category`  | [device type name](###measurement-devices) of the measurement device |
+| index            | `timestamp`                          | `Timestamp` | start of the interval (timezone aware)                               |
+| column           | property_1; see property table below | data_type_1 | measured value of this property                                      |
+| column           | property2                            | data_type_2 | measured value of this property                                      |
+| ...              | ...                                  | ...         | ...                                                                  |
+| column           | property_n                           | data_type_n | measured value of this property                                      |
 
-| **Index/Column** | **Name**                             | **Type**    | **Description**                                              |
-| ---------------- | ------------------------------------ | ----------- | ------------------------------------------------------------ |
-| index            | `id`                                 | `category`  | unique code of the home                                      |
-| index            | `source`                             | `category`  | [device type name](###measurement-devices) of the measurement device |
-| index            | `timestamp`                          | `Timestamp` | start of the interval (timezone aware)                       |
-| column           | property_1; see property table below | data_type_1 | measured value of this property                              |
-| column           | property2                            | data_type_2 | measured value of this property                              |
-| ...              | ...                                  | ...         | ...                                                          |
-| column           | property_n                           | data_type_n | measured value of this property                              |
 
 ### Measured Properties 
 
@@ -115,23 +106,22 @@ Below is a table that lists all properties that were measured, the data type in 
 
 TO DO: Change the markdown table below as needed.
 
-| Property   | Type      | Unit | Measurement interval \[h:mm:ss\] | Description       | Source                       | Sensor                                                 | Database property  | [Database format](https://en.wikipedia.org/wiki/Printf_format_string) |
+| Property   | Type      | Unit | Measurement interval \[h:mm:ss\] | Description       | Source Type                  | Sensor                                                 | Database property  | [Database format](https://en.wikipedia.org/wiki/Printf_format_string) |
 | ---------- | --------- | ---- | -------------------------------- | ----------------- | ---------------------------- | ------------------------------------------------------ | ------------------ | ------------------------------------------------------------ |
 | `co2__ppm` | `float32` | ppm  | 0:05:00                          | CO₂ concentration | `DSMR-P1-gateway-TinTsTrCO2` | [SCD41](https://sensirion.com/products/catalog/SCD41/) | `CO2concentration` | %d                                                           |
 
 Weather data was collected and geospatially interpolated using [HourlyHistoricWeather](https://github.com/stephanpcpeters/HourlyHistoricWeather) from the Royal Netherlands Meteorological Institute ([KNMI](https://www.knmi.nl/over-het-knmi/about)), based on average hourly values. 
 
-TO DO: change the 
 For all subject ids, we used the same location for geospatial interpolation of weather data:
 [`lat, lon = 52.xxxxx, 6.yyyyy`](https://www.openstreetmap.org/?mlat=52.xxxxx&mlon=6.yyyyy#map=17/52.xxxxx/6.yyyyy). Average values were converted from the source units to the units as indicated in the table below. 
 
 
-| Index/Column | Property         | Type        | Unit            | Measurement interval \[h:mm:ss\] | Description                       | Source | [Source property](https://www.daggegevens.knmi.nl/klimatologie/uurgegevens) | [Source value format](https://en.wikipedia.org/wiki/Printf_format_string) | Source unit                                        |
-| ------------ | ---------------- | ----------- | --------------- | -------------------------------- | --------------------------------- | ------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------- |
-| index        | `timestamp`      | `Timestamp` |                 |                                  | start of the measurement interval | KNMI   | `YYYMMDD`, `H`                                               |                                                              | H=1: 0:00:00 - 0:59:59; H=24: 23:00:00 - 23:59:59; |
-| column       | `temp_out__degC` | `float32`   | °C              | 1:00:00                          | outdoor temperature               | KNMI   | ` T`                                                         | %d                                                           | 0.1&nbsp;°C                                        |
-| column       | `wind__m_s_1`    | `float32`   | m/s             | 1:00:00                          | wind speed                        | KNMI   | ` FH`                                                        | %d                                                           | 0.1&nbsp;m/s                                       |
-| column       | `ghi__W_m_2`     | `float32`   | W/m<sup>2</sup> | 1:00:00                          | global horizontal irradiance      | KNMI   | ` Q`                                                         | %d                                                           | J/(h·cm<sup>2</sup>)                               |
+| Index/Column | Property         | Type        | Unit            | Measurement interval \[h:mm:ss\] | Description                       | Source Type | [Source property](https://www.daggegevens.knmi.nl/klimatologie/uurgegevens) | [Source value format](https://en.wikipedia.org/wiki/Printf_format_string) | Source unit                                        |
+| ------------ | ---------------- | ----------- | --------------- | -------------------------------- | --------------------------------- | ----------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------- |
+| index        | `timestamp`      | `Timestamp` |                 |                                  | start of the measurement interval | KNMI        | `YYYMMDD`, `H`                                                              |                                                                           | H=1: 0:00:00 - 0:59:59; H=24: 23:00:00 - 23:59:59; |
+| column       | `temp_out__degC` | `float32`   | °C              | 1:00:00                          | outdoor temperature               | KNMI        | ` T`                                                                        | %d                                                                        | 0.1&nbsp;°C                                        |
+| column       | `wind__m_s_1`    | `float32`   | m/s             | 1:00:00                          | wind speed                        | KNMI        | ` FH`                                                                       | %d                                                                        | 0.1&nbsp;m/s                                       |
+| column       | `ghi__W_m_2`     | `float32`   | W/m<sup>2</sup> | 1:00:00                          | global horizontal irradiance      | KNMI        | ` Q`                                                                        | %d                                                                        | J/(h·cm<sup>2</sup>)                               |
 
 
 ### Preprocessed data 
