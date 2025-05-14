@@ -1,4 +1,4 @@
-# needforheat-dataset-template
+# Generic enery transition dataset template
 TO DO: Replace this text with a very short description of the dataset. 
 
 ## Table of contents
@@ -12,7 +12,7 @@ TO DO: Replace this text with a very short description of the dataset.
 
 ## General info
 
-TO DO: Replace this text by general info about the dataset, e.g. generic description of subjects and when the data was collected. 
+This is a template repository for a data set published by the Research Group Energy Transiton at Windesheim University of Applied Sciences. Replace items in this template with text appropriate for your repo.
 
 ## Recruitment 
 
@@ -58,14 +58,13 @@ All timestamps were measured in [Unix time](https://en.wikipedia.org/wiki/Unix_t
 Timestamps were converted to a timezone-aware `pandas.Timestamp` value, in the [Europe/Amsterdam](https://en.wikipedia.org/wiki/Time_in_the_Netherlands) timezone. In the csv files we use [ISO 8601 format with time offset](https://en.wikipedia.org/wiki/ISO_8601): `YYYY-MM-DDThh:mm:ss±hhmm`.
 
 ### Raw measurements 
- Raw masurements will be available in the folder [/raw-measurements/](/raw-measurements/) in two formats:
+Raw maasurements will be available in the folder [/raw-measurements/](/raw-measurements/), e.g.:
 
- - [twomes_raw_measurements.parquet](/raw-measurements/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
- - nnnnnn_raw_measurements.zip: [zip](https://en.wikipedia.org/wiki/ZIP_(file_format))ped [csv](https://en.wikipedia.org/wiki/Comma-separated_values) files, one for each subject id;
+- [twomes_raw_measurements.parquet](/raw-measurements/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
 
 All measurement data is structured according to the table below. By importing the parquet variant using [pandas.read_parquet()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_parquet.html), you automatically get a DataFrame wih the recommended indices and data types. 
 
-Alternatively, you can also read the zipped csv files, but this typically takes much longer. You can use the code below to endup with a DataFrame with the recommended indices and data types:
+TO DO: Change the markdown table below as needed.
 
 | **Index/Column** | **Name**          | **Type**    | **Description**                                                      |
 | ---------------- | ----------------- | ----------- | -------------------------------------------------------------------- |
@@ -79,14 +78,13 @@ Alternatively, you can also read the zipped csv files, but this typically takes 
 
 
 ### Raw propertes 
- In the folder [/raw-properties/](/raw-properties/) we will make various measured properties available in an 'unstacked' format with each property in its own column and an appropriate datatype. Similar to measurements, we will make data available in two formats:
+In the folder [/raw-properties/](/raw-properties/) we will make various measured properties available in an 'unstacked' format with each property in its own column and an appropriate datatype, e.g.:
 
- - [twomes_raw_properties.parquet](/raw-properties/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
- - nnnnnn_raw_properties.zip: <insert number> [zip](https://en.wikipedia.org/wiki/ZIP_(file_format))ped [csv](https://en.wikipedia.org/wiki/Comma-separated_values) files, one for each subject id;
+- [twomes_raw_properties.parquet](/raw-properties/twomes_raw_measurements.parquet): a single [parquet](https://parquet.apache.org/) file with data for all subject ids;
 
 All property data is structured according to the table below. By importing the parquet variant using [pandas.read_parquet()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_parquet.html), you automatically get a DataFrame wih the recommended indices and data types. 
 
-Alternatively, you can also read the zipped csv files, but this typically takes much longer. You can use the code below to endup with a DataFrame with the recommended indices and data types:
+TO DO: Change the markdown table below as needed.
 
 | **Index/Column** | **Name**                             | **Type**    | **Description**                                                      |
 | ---------------- | ------------------------------------ | ----------- | -------------------------------------------------------------------- |
@@ -123,12 +121,11 @@ For all subject ids, we used the same location for geospatial interpolation of w
 | column       | `wind__m_s_1`    | `float32`   | m/s             | 1:00:00                          | wind speed                        | KNMI        | ` FH`                                                                       | %d                                                                        | 0.1&nbsp;m/s                                       |
 | column       | `ghi__W_m_2`     | `float32`   | W/m<sup>2</sup> | 1:00:00                          | global horizontal irradiance      | KNMI        | ` Q`                                                                        | %d                                                                        | J/(h·cm<sup>2</sup>)                               |
 
-
 ### Preprocessed data 
-
 TO DO: change preprocessing description below.
 
 Preprocessing of measurements from the measurement database was done using [get_preprocessed_homes_data()](https://github.com/energietransitie/twomes-twutility-inverse-grey-box-analysis/blob/main/data/extractor.py). Preprocessing steps include:
+
 - removal of duplicate measurements;
 - calculation of derived properties as a combination of other properties, as indicated in the column `Calculation` in the table below;
 - removal of absolute outliers, i.e measurement values smaller than the value in the column `Min` or larger than the value in the column `Max` in the table below;
